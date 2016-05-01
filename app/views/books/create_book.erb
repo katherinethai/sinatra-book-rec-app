@@ -1,0 +1,10 @@
+<h2>Recommend a book to <%= @user.username %>:</h2>
+
+<form action="/books/<%= @user.slug %>" method="POST">
+  <p>Title: <input type="text" name="title"></p>
+  <p>Author: <input type="text" name="author"></p>
+  <p>Genre: <input type="text" name="genre"></p>
+
+  <input type="hidden" name="user_id" value="<%= @user.id %>">
+  <input type="submit" value="Submit">
+</form>

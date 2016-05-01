@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160501014735) do
+ActiveRecord::Schema.define(version: 20160501032128) do
 
   create_table "authors", force: :cascade do |t|
     t.string "name"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20160501014735) do
     t.integer "user_id"
     t.integer "author_id"
     t.integer "genre_id"
+    t.integer "recommender_id"
   end
 
   create_table "genres", force: :cascade do |t|

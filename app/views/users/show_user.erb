@@ -1,0 +1,13 @@
+<h2><%= @user.username %>'s books</h2>
+
+<form action="/books/new" method="GET">
+  <input type="hidden" name="user_id" value="<%= @user.id %>">
+  <input type="submit" value="Recommend a book">
+</form>
+
+<% @user.books.each do |book| %>
+  <h3><%= book.title %></h3>
+  <h4><%= book.author.name %></h4>
+  <p><%= book.genre.name %></p>
+  <p>Recommended by <%= book.user.username %></p>
+<% end %>

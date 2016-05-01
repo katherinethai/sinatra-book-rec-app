@@ -44,13 +44,20 @@ class ApplicationController < Sinatra::Base
     else
       user = User.find_by(username: params[:username])
       if user && user.authenticate(params[:password])
-        session[:id] == user.id
+        session[:id] = user.id
         redirect '/books'
       else
         erb :'users/login', locals: {message: "Incorrect username or password."}
       end
     end
   end
+
+  get '/users/:slug' do
+    @user = User.find_by_slug(params[:slug])
+    erb :'/users/show_user'
+  end
+
+
 
   helpers do
     def logged_in?
