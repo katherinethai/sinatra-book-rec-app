@@ -1,7 +1,27 @@
 <h2>Your books:</h2>
 
 <% @user.books.each do |book| %>
-  <h3><%= book.title %></h3>
-  <h4><%= book.author.name %></h4>
-  <p><%= book.genre.name %></p>
+  <% if !book.read? %>
+    <p><%= book.read? %></p>
+    <h3><%= book.title %></h3>
+    <h4><%= book.author.name %></h4>
+    <p><%= book.genre.name %></p>
+    <p>Recommended by <%= book.recommender.username %></p>
+    
+    <span><form action="/books/<%= book.id %>/delete" method="POST">
+      <input type="submit" value="Reject recommendation">
+    </form></span>
+
+    <span><form action="/books/<%= book.id %>/read" method="POST">
+      <input type="hidden" name="user_id" value="<%= @user.id %>">
+      <input type="submit" value="Mark as read">
+    </form></span>
+
+  <% end %>
 <% end %>
+
+<br><br>
+
+<form action="/logout" method="GET">
+  <input type="submit" value="Log Out">
+</form>

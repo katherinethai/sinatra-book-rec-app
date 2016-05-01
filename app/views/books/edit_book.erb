@@ -1,0 +1,9 @@
+<h2>Edit <%= @book.title %>:</h2>
+
+<form action="/books/<%= @book.id %>/edit" method="POST">
+  <p>Title: <input type="text" name="title"></p>
+  <p>Author: <input type="text" name="author"></p>
+  <p>Genre: <input type="text" name="genre"></p>
+
+  <input type="submit" value="Submit">
+</form>

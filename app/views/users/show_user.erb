@@ -6,8 +6,20 @@
 </form>
 
 <% @user.books.each do |book| %>
-  <h3><%= book.title %></h3>
-  <h4><%= book.author.name %></h4>
-  <p><%= book.genre.name %></p>
-  <p>Recommended by <%= book.user.username %></p>
+  <% if !book.read? %>
+    <h3><%= book.title %></h3>
+    <h4><%= book.author.name %></h4>
+    <p><%= book.genre.name %></p>
+    <p>Recommended by <a href="/users/<%= book.recommender.slug %>"><%= book.recommender.username %></a></p>
+    <% if @current_user == book.recommender %>
+      <span><form action="/books/<%= book.id %>/edit" method="GET">
+        <input type="submit" value="Edit">
+      </form></span>
+
+      <span><form action="/books/<%= book.id %>/delete" method="POST">
+        <input type="hidden" name="book_id" value="<%= book.id %>">
+        <input type="submit" value="Delete">
+      </form></span>
+    <% end %>
+  <% end %>
 <% end %>
