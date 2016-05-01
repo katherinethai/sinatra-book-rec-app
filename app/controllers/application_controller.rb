@@ -61,6 +61,11 @@ class ApplicationController < Sinatra::Base
     end
   end
 
+  get '/users' do
+    @users = User.all
+    erb :'/users/all_users'
+  end
+
   get '/users/:slug' do
     @user = User.find_by_slug(params[:slug])
     if @user == current_user
@@ -70,7 +75,6 @@ class ApplicationController < Sinatra::Base
       erb :'/users/show_user'
     end
   end
-
 
   helpers do
     def logged_in?
