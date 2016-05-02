@@ -8,8 +8,8 @@
 <% @user.books.each do |book| %>
   <% if !book.read? %>
     <h3><%= book.title %></h3>
-    <h4><%= book.author.name %></h4>
-    <p><%= book.genre.name %></p>
+    <h4><%= book.author %></h4>
+    <p><%= book.genre %></p>
     <p>Recommended by <a href="/users/<%= book.recommender.slug %>"><%= book.recommender.username %></a></p>
     <% if @current_user == book.recommender %>
       <span><form action="/books/<%= book.id %>/edit" method="GET">

@@ -1,7 +1,5 @@
 class Book < ActiveRecord::Base
   belongs_to :user
-  belongs_to :author
-  belongs_to :genre
 
   def recommender
     User.all.find {|user| user.id == self.recommender_id}

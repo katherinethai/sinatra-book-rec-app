@@ -1,11 +1,11 @@
-<h2>Your books:</h2>
+<h2>Your finished books:</h2>
 
-<form action="/books/finished" method="GET">
-  <input type="submit" value="Finished books">
+<form action="/books" method="GET">
+  <input type="submit" value="Recommended books">
 </form>
 
 <% @user.books.each do |book| %>
-  <% if !book.read? %>
+  <% if book.read? %>
     <h3><%= book.title %></h3>
     <h4><%= book.author %></h4>
     <p><%= book.genre %></p>
@@ -13,12 +13,12 @@
     
     <span><form action="/books/<%= book.id %>/delete" method="POST">
       <input type="hidden" name="user_id" value="<%= @user.id %>">
-      <input type="submit" value="Reject recommendation">
+      <input type="submit" value="Permanently delete">
     </form></span>
 
-    <span><form action="/books/<%= book.id %>/read" method="POST">
+    <span><form action="/books/<%= book.id %>/unread" method="POST">
       <input type="hidden" name="user_id" value="<%= @user.id %>">
-      <input type="submit" value="Mark as read">
+      <input type="submit" value="Mark as unread">
     </form></span>
 
   <% end %>
