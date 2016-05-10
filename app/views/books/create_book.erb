@@ -1,10 +1,57 @@
-<h2>Recommend a book to <%= @user.username %>:</h2>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">BookRec</a>
+      <ul class="nav navbar-nav">
+        <li><a href="/books">Books<span class="sr-only">(current)</span></a></li>
+        <li><a href="/finished">Completed Books</a></li>
+        <li><a href="/users">Users</a></li>
+      </ul>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li id="login-button">
+          <form action="/logout" method="GET">
+            <input class="btn btn-default" type="submit" value="Log Out">
+          </form>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
 
-<form action="/books/<%= @user.slug %>" method="POST">
-  <p>Title: <input type="text" name="title"></p>
-  <p>Author: <input type="text" name="author"></p>
-  <p>Genre: <input type="text" name="genre"></p>
+<section class="center-page">
+  <h2>Recommend a book to <%= @user.username %>:</h2>
+  
+  <% unless locals.empty? %>
+    <%= message %>
+  <% end %>
+</section>
 
-  <input type="hidden" name="user_id" value="<%= @user.id %>">
-  <input type="submit" value="Submit">
-</form>
+<div class="wrapper">
+  <form action="/books/<%= @user.slug %>" method="POST">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" class="form-control" name="title">
+    </div>
+    <div class="form-group">
+      <label for="author">Author</label>
+      <input type="text" class="form-control" name="author">
+    </div>
+    <div class="form-group">
+      <label for="genre">Genre</label>
+      <input type="text" class="form-control" name="genre">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+</div>
+
+

@@ -1,10 +1,24 @@
 require 'pry'
 class BooksController < ApplicationController
 
-  get '/books' do 
-    if logged_in?
-      @user = current_user
-      erb :'books/books'
+
+  post '/books/delete' do
+    @book = Book.find_by_id(params[:book_id])
+    @user = User.find_by_id(params[:user_id])
+    if logged_in? && current_user == @user
+      @book.delete
+      redirect "/finished"
+    else
+      redirect '/login'
+    end
+  end
+
+    post '/books/reject' do
+    @book = Book.find_by_id(params[:book_id])
+    @user = User.find_by_id(params[:user_id])
+    if logged_in? && current_user == @user
+      @book.delete
+      redirect "/books"
     else
       redirect '/login'
     end
@@ -17,9 +31,18 @@ class BooksController < ApplicationController
       @book.user = @user
       @book.recommender = current_user
       @book.save
-      redirect "/users/#{@user.slug}"
+      redirect "/#{@user.slug}"
     else
-      redirect '/books/new'
+      redirect "/#{@user.slug}"
+    end
+  end
+
+  get '/books' do 
+    if logged_in?
+      @user = current_user
+      erb :'books/books'
+    else
+      redirect '/login'
     end
   end
 
@@ -35,10 +58,10 @@ class BooksController < ApplicationController
       @book.genre = params[:genre]
     end
     @book.save
-    redirect "/users/#{@book.user.slug}"
+    redirect "/#{@book.user.slug}"
   end
 
-  get '/books/new' do
+  get '/new' do
     if logged_in?
       @user = User.find_by_id(params[:user_id])
       erb :'books/create_book'
@@ -47,17 +70,18 @@ class BooksController < ApplicationController
     end
   end
 
-  get '/books/finished' do
+
+  get '/finished' do
     if logged_in?
       @user = current_user
-      erb :'books/books_marked_read'
+      erb :'books/finished'
     else
       redirect '/login'
     end
   end
 
-  get '/books/:id/edit' do
-    @book = Book.find(params[:id])
+  get '/edit' do
+    @book = Book.find(params[:book_id])
     if logged_in? && current_user == @book.recommender
       erb :'books/edit_book'
     else
@@ -68,9 +92,10 @@ class BooksController < ApplicationController
   post '/books/:id/delete' do 
     @book = Book.find(params[:id])
     @user = User.find_by_id(params[:user_id])
-    if logged_in? && current_user == @user
+    @recommender = User.find(params[:recommender_id])
+    if logged_in? && current_user == @recommender
       @book.delete
-      redirect '/books'
+      redirect "/#{@user.slug}"
     else
       redirect '/login'
     end
@@ -94,7 +119,7 @@ class BooksController < ApplicationController
     if logged_in? && current_user == @user
       @book.read = false
       @book.save
-      redirect '/books/finished'
+      redirect '/finished'
     else
       redirect '/login'
     end

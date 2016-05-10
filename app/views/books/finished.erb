@@ -11,7 +11,7 @@
       <a class="navbar-brand" href="/">BookRec</a>
       <ul class="nav navbar-nav">
         <li><a href="/books">Books<span class="sr-only">(current)</span></a></li>
-        <li><a href="/finished">Completed Books</a></li>
+        <li class="active"><a href="/finished">Completed Books</a></li>
         <li><a href="/users">Users</a></li>
       </ul>
     </div>
@@ -27,42 +27,38 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-<section class="center">
-  <h2><%= @user.username %>'s books</h2>
-  <br>
 
-  <form action="/new" method="GET">
-    <input type="hidden" name="user_id" value="<%= @user.id %>">
-    <input type="submit" value="Recommend a book">
-  </form>
+<section class="center">
+  <h2>Your finished books:</h2>
 </section>
 
 <% @user.books.each do |book| %>
-  <div class="center-books">
-    <% if !book.read? %>
+  <% if book.read? %>
+    <div class="center-books">
       <h3><%= book.title %></h3>
       <h4><%= book.author %></h4>
       <p><%= book.genre %></p>
-    <p>Recommended by 
-      <% if book.recommender %>
-        <a href="/<%= book.recommender.slug %>"><%= book.recommender.username %></a>
-      <% else %>
-        inactive user
-      <% end %>
-    </p>
-    <% end %>
-
-    <% if @current_user == book.recommender %>
-      <span><form action="/edit" method="GET">
+      <p>Recommended by 
+        <% if book.recommender %>
+          <a href="/<%= book.recommender.slug %>"><%= book.recommender.username %></a>
+        <% else %>
+          inactive user
+        <% end %>
+      </p>
+      
+      <span><form action="/books/delete" method="POST">
         <input type="hidden" name="book_id" value="<%= book.id %>">
-        <input type="submit" value="Edit">
+        <input type="hidden" name="user_id" value="<%= @user.id %>">
+        <input type="submit" value="Permanently delete">
       </form></span>
 
-      <span><form action="/books/<%= book.id %>/delete" method="POST">
+      <span><form action="/books/<%= book.id %>/unread" method="POST">
         <input type="hidden" name="user_id" value="<%= @user.id %>">
-        <input type="hidden" name="recommender_id" value="<%= book.recommender_id %>">
-        <input type="submit" value="Delete">
+        <input type="submit" value="Mark as unread">
       </form></span>
-    <% end %>
-  </div>
+    </div>
+
+  <% end %>
 <% end %>
+
+<br><br>

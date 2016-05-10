@@ -35,6 +35,12 @@ class ApplicationController < Sinatra::Base
     end
   end
 
+  get '/users' do
+    @users = User.all
+    erb :'/users/all_users'
+  end
+
+
   get '/logout' do
     if logged_in?
       session.clear
@@ -61,18 +67,13 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  get '/users' do
-    @users = User.all
-    erb :'/users/all_users'
-  end
-
-  get '/users/:slug' do
+  get '/:slug' do
     @user = User.find_by_slug(params[:slug])
     if @user == current_user
       redirect '/books'
     else
       @current_user = current_user
-      erb :'/users/show_user'
+      erb :'users/show_user'
     end
   end
 

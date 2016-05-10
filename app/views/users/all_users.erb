@@ -1,5 +1,44 @@
-<h2>All Users:</h2>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">BookRec</a>
+      <ul class="nav navbar-nav">
+        <li><a href="/books">Books<span class="sr-only">(current)</span></a></li>
+        <li><a href="/finished">Completed Books</a></li>
+        <li class="active"><a href="/users">Users</a></li>
+      </ul>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li id="login-button">
+          <form action="/logout" method="GET">
+            <input class="btn btn-default" type="submit" value="Log Out">
+          </form>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<section class="center">
+  <h2>All Users:</h2>
+  <br><br>
+</section>
 
 <% @users.each do |user| %>
-  <a href="/users/<%= user.slug %>"><%= user.username %></a><br>
+  <div class="users">
+    <a href="/<%= user.slug %>">
+      <div id="users">
+        <%= user.username %><br>
+      </div>
+    </a>
+  </div>
 <% end %>
